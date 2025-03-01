@@ -73,7 +73,7 @@ class RegisterScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'have a account?',
+                        'Have an account?',
                         style: AppStyles.bodyTextNormalBold,
                       ),
                       TextButton(
