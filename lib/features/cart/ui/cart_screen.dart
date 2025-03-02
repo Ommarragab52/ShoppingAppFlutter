@@ -5,7 +5,7 @@ import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/cart/logic/cubit/cart_cubit.dart';
 import 'package:flutter_ecommerce_app/features/cart/ui/widgets/check_out_button.dart';
 import 'package:flutter_ecommerce_app/features/cart/ui/widgets/total_orders_widget.dart';
-import 'package:flutter_ecommerce_app/features/cart/ui/widgets/apply_cupon_widget.dart';
+import 'package:flutter_ecommerce_app/features/cart/ui/widgets/apply_coupon_widget.dart';
 import 'package:flutter_ecommerce_app/features/cart/ui/widgets/cart_item_view.dart';
 import 'package:flutter_ecommerce_app/features/category/ui/widgets/category_loading_view.dart';
 import 'package:flutter_ecommerce_app/features/favorites/logic/favorites_state.dart';
@@ -24,7 +24,6 @@ class CartScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           slivers: [
             BlocBuilder<CartCubit, CartState>(
               builder: (context, state) {
@@ -66,38 +65,34 @@ class CartScreen extends StatelessWidget {
                     ),
                   );
                 }
-                return SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 300.h,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => CartItemView(
-                          cartItem: cartsList[index],
-                          onCartClick: () {
-                            context.pushNamed(
-                              Routes.productDetailsScreen,
-                              arguments: cartsList[index].product?.id,
-                            );
-                          }),
-                      itemCount: cartsList.length,
-                    ),
-                  ),
+                return SliverList.builder(
+                  itemCount:  cartsList.length,
+                  itemBuilder:(context, index) =>  CartItemView(
+                      cartItem: cartsList[index],
+                      onCartClick: () {
+                        context.pushNamed(
+                          Routes.productDetailsScreen,
+                          arguments: cartsList[index].product?.id,
+                        );
+                      }),
                 );
               },
             ),
-            sliverVerticalSpace(18),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const ApplyCuponWidget(),
-                  verticalSpace(16),
-                  const TotalOrdersWidget(),
-                  verticalSpace(16),
-                  const CheckOutButton()
-                ],
-              ),
-            )
+            // const SliverPadding(padding: EdgeInsets.only(bottom: 12))
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 12.h, left: 16.w, right: 16.w,top: 4.h),
+        child: Column(
+        spacing: 12.h,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          // ApplyCouponWidget(),
+          TotalOrdersWidget(),
+          CheckOutButton(),
+        ],
+            ),
       ),
     );
   }

@@ -46,14 +46,6 @@ class Assets {
   /// assets/image/splash.png
   static const String imageSplash = "assets/image/splash.png";
 
-  /// Assets for riveBasicAnimation
-  /// assets/rive/basic_animation.riv
-  static const String riveBasicAnimation = "assets/rive/basic_animation.riv";
-
-  /// Assets for riveBasicAnimation2
-  /// assets/rive/basic_animation2.riv
-  static const String riveBasicAnimation2 = "assets/rive/basic_animation2.riv";
-
   /// Assets for svgAddress
   /// assets/svg/address.svg
   static const String svgAddress = "assets/svg/address.svg";

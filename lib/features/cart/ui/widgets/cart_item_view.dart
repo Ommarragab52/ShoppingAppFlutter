@@ -28,7 +28,7 @@ class CartItemView extends StatelessWidget {
             child: Container(
               height: 110.h,
               alignment: Alignment.center,
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.neutralLight),
                 borderRadius: BorderRadius.circular(8.0),

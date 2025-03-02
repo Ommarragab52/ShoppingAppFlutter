@@ -24,21 +24,21 @@ class FavoriteIconButton extends StatelessWidget {
             current is DeleteFavoriteSuccessState;
       },
       builder: (context, state) {
-        bool isfavorite =
+        bool isFavorite =
             ServiceLocator.favoritesCubit.favoritesMap?[productModel.id] ??
                 productModel.inFavorites!;
-        return CircleAvatar(
-          radius: 16,
-          backgroundColor: AppColors.neutralLight,
-          child: InkWell(
-            onTap: () {
-              ServiceLocator.favoritesCubit
-                  .addDeleteFavoriteByProductId(productModel.id!, !isfavorite);
-            },
+        return GestureDetector(
+          onTap: () {
+            ServiceLocator.favoritesCubit
+                .addDeleteFavoriteByProductId(productModel.id!, !isFavorite);
+          },
+          child: CircleAvatar(
+            radius: 16,
+            backgroundColor: AppColors.neutralLight,
             child: Icon(
               Icons.favorite,
               size: 20.w,
-              color: isfavorite ? AppColors.primaryBlue : AppColors.neutralGrey,
+              color: isFavorite ? AppColors.primaryBlue : AppColors.neutralGrey,
             ),
           ),
         );

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/cart/logic/cubit/cart_cubit.dart';
+import 'package:flutter_ecommerce_app/features/home_layout/logic/cubit/home_layout_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_states.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/produtcs_widgets/favorite_icon_button.dart';
@@ -195,11 +196,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   child: productModel.inCart!
                       ? AppButton(
                           onPressed: () {
-                            // context
-                            //     .pushReplecmentNamed(Routes.homeLayoutScreen);
-                            // context.read<HomeLaoutCubit>().changeIndex(index: 2);
+                            // context.read<HomeLayoutCubit>().changeIndex(index: 2);
+                            // context.pop();
                           },
-                          text: 'View Cart',
+                          text: 'In Cart',
                         )
                       : AppButton(
                           onPressed: () {

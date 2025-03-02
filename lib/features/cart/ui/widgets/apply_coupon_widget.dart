@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ApplyCuponWidget extends StatefulWidget {
-  const ApplyCuponWidget({
+class ApplyCouponWidget extends StatefulWidget {
+  const ApplyCouponWidget({
     super.key,
   });
 
   @override
-  State<ApplyCuponWidget> createState() => _ApplyCuponWidgetState();
+  State<ApplyCouponWidget> createState() => _ApplyCouponWidgetState();
 }
 
-class _ApplyCuponWidgetState extends State<ApplyCuponWidget> {
+class _ApplyCouponWidgetState extends State<ApplyCouponWidget> {
   bool isValid = false;
   final cartCubit = ServiceLocator.cartCubit;
 
@@ -28,7 +28,8 @@ class _ApplyCuponWidgetState extends State<ApplyCuponWidget> {
       child: AppTextFormField(
         controller: cartCubit.cuponCodeController,
         enabled: isValid ? false : true,
-        hintText: 'Enter Cupon Code',
+        hintText: 'Enter Coupon Code',
+
         validator: cartCubit.validateCuponCode,
         sufixIcon: SizedBox(
           width: 87.w,
