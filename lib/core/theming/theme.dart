@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../export.dart';
 import 'app_colors.dart';
 import 'app_styles.dart';
 
 ThemeData lightTheme = ThemeData(
+  fontFamily:  Assets.fontsJannaLtBold,
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: AppColors.primaryBlue,
     ),
@@ -56,11 +58,11 @@ ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme(
         brightness: Brightness.light,
         primary: AppColors.primaryBlue,
-        onPrimary: const Color.fromARGB(255, 255, 255, 255),
+        onPrimary:  Colors.white,
         secondary: Colors.blue.shade400,
         onSecondary: Colors.white,
         error: Colors.red,
-        onError: const Color.fromARGB(255, 0, 0, 0),
+        onError: Colors.black,
         surface: Colors.white,
         onSurface: Colors.black87),
     scaffoldBackgroundColor: Colors.white);

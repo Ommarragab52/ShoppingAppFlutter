@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/cart/logic/cubit/cart_cubit.dart';
+import 'package:flutter_ecommerce_app/features/home_layout/logic/cubit/home_layout_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_states.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/produtcs_widgets/favorite_icon_button.dart';
@@ -60,6 +63,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             CachedNetworkImage(
                           imageUrl: productModel.images![index],
                           fit: BoxFit.contain,
+                          placeholder: (context, url) => const ShimmerPlaceHolder(),
                           filterQuality: FilterQuality.low,
                         ),
                         options: CarouselOptions(
@@ -185,21 +189,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               },
               builder: (context, state) {
                 return Padding(
-                    padding: EdgeInsetsDirectional.only(
-                      start: 16.w,
-                      end: 16.w,
-                      bottom: 16.h,
-                    ),
-                    child: AppButton(
-                      onPressed: () {
-                        ServiceLocator.cartCubit
-                            .addDeleteCart(productModel.id!);
-                        productModel.inCart = !productModel.inCart!;
-                      },
-                      text: productModel.inCart!
-                          ? 'Remove From Cart'
-                          : 'Add To Cart',
-                    ));
+                  padding: EdgeInsetsDirectional.only(
+                    start: 16.w,
+                    end: 16.w,
+                    bottom: 16.h,
+                  ),
+                  child: productModel.inCart!
+                      ? AppButton(
+                          onPressed: () {
+                            // context.read<HomeLayoutCubit>().changeIndex(index: 2);
+                            // context.pop();
+                          },
+                          text: 'In Cart',
+                        )
+                      : AppButton(
+                          onPressed: () {
+                            ServiceLocator.cartCubit
+                                .addDeleteCart(productModel.id!);
+                            productModel.inCart = !productModel.inCart!;
+                          },
+                          text: 'Add To Cart',
+                        ),
+                );
               },
             ),
           );

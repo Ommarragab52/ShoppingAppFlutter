@@ -6,20 +6,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final IconData? icon;
   final BorderRadiusGeometry? borderRadius;
   final Color? backgroundColor;
+
   const AppButton({
     super.key,
     required this.onPressed,
     required this.text,
     this.borderRadius,
     this.backgroundColor,
+    this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
+    return FilledButton.icon(
       style: ButtonStyle(
+
         backgroundColor: WidgetStatePropertyAll(backgroundColor),
         padding: const WidgetStatePropertyAll(EdgeInsets.all(16)),
         minimumSize: WidgetStatePropertyAll(Size(double.infinity, 57.h)),
@@ -31,10 +35,13 @@ class AppButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(
+      iconAlignment: IconAlignment.end,
+      icon: icon == null ? null : Icon(icon),
+      label: Text(
         text,
         style: AppStyles.buttonText,
       ),
+
     );
   }
 }

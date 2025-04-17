@@ -4,7 +4,7 @@ import 'package:flutter_ecommerce_app/core/di/dpendency_injection.dart';
 import 'package:flutter_ecommerce_app/core/utils/startup_methods.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/utils/my_bloc_observer.dart';
-import 'ecommerce_app.dart';
+import 'app.dart';
 import 'package:device_preview/device_preview.dart';
 
 void main() async {
@@ -12,9 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // To show Bloc States and changes in debug console terminal
   Bloc.observer = MyBlocObserver();
-  // To fix texts hidden bug in flutter_screenutil in release mode.
+  // To fix texts hidden bug in flutter ScreenUtil in release mode.
   await ScreenUtil.ensureScreenSize();
-  // Setup Dpendency Injection
+  // Setup Dependency Injection
   await ServiceLocator.setUpGetIt();
   // Check if user open app for first time to display OnBoard Screen
   await showOnBoarding();
@@ -25,7 +25,7 @@ void main() async {
     DevicePreview(
       enabled: false,
       builder: (BuildContext context) {
-        return const EcommerceApp();
+        return const App();
       },
     ),
   );

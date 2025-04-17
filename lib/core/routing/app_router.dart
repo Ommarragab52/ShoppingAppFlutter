@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
+import 'package:flutter_ecommerce_app/features/auth/logic/auth_cubit.dart';
+import 'package:flutter_ecommerce_app/features/auth/ui/login_screen.dart';
+import 'package:flutter_ecommerce_app/features/auth/ui/register_screen.dart';
 import 'package:flutter_ecommerce_app/features/category/data/models/categories/category_response.dart';
 import 'package:flutter_ecommerce_app/features/favorites/ui/favorites_screen.dart';
-import 'package:flutter_ecommerce_app/features/login/logic/login_cubit.dart';
-import 'package:flutter_ecommerce_app/features/login/ui/login_screen.dart';
+import 'package:flutter_ecommerce_app/features/home_layout/ui/home_layout.dart';
 import 'package:flutter_ecommerce_app/features/notifications/ui/notifications_screen.dart';
 import 'package:flutter_ecommerce_app/features/onboarding/onboarding_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/product_details_screen/product_details_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/products_screen.dart';
-import 'package:flutter_ecommerce_app/features/home_layout/ui/home_layout.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_search_screen/products_search_screen.dart';
-import 'package:flutter_ecommerce_app/features/register/logic/register_cubit.dart';
-import 'package:flutter_ecommerce_app/features/register/ui/register_screen.dart';
+import 'package:flutter_ecommerce_app/features/profile/ui/edit_profile_screen.dart';
+import 'package:flutter_ecommerce_app/features/profile/ui/profile_screen.dart';
 
 class AppRouter {
   static Route? generateRoute(RouteSettings settings) {
@@ -24,14 +25,14 @@ class AppRouter {
 
       case Routes.loginScreen:
         return MaterialPageRoute(
-            builder: (contex) => BlocProvider(
-                create: (context) => ServiceLocator.getIt<LoginCubit>(),
+            builder: (context) => BlocProvider(
+                create: (context) => ServiceLocator.getIt<AuthCubit>(),
                 child: const LoginScreen()));
 
       case Routes.registerScreen:
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
-                create: (context) => ServiceLocator.getIt<RegisterCubit>(),
+                create: (context) => ServiceLocator.getIt<AuthCubit>(),
                 child: const RegisterScreen()));
 
       case Routes.homeLayoutScreen:
@@ -75,7 +76,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (BuildContext context) => const NotificationsScreen(),
         );
-
+      case Routes.profileScreen:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const ProfileScreen(),
+        );
+      case Routes.editProfileScreen:
+        return MaterialPageRoute(
+          builder: (context) => const EditProfileScreen(),
+        );
       default:
         return null;
     }

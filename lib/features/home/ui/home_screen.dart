@@ -19,7 +19,6 @@ class HomeScreen extends StatelessWidget {
           slivers: [
             // show Banners
             const SliverToBoxAdapter(child: BannersWidget()),
-
             SliverToBoxAdapter(
               child: CustomTextTitleAndButton(
                 label: 'Flash Sale',

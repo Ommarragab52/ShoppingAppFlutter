@@ -110,9 +110,9 @@ class CartCubit extends Cubit<CartState> {
   bool isValidCupon = false;
   String? validateCuponCode(String? value) {
     if (value.isNullOrEmpty()) {
-      return 'Please enter cupon code';
+      return '* Your Cupon Is Not Correct ';
     }
     if (value == 'off50') return null;
-    return 'Please enter cupon code';
+    return '* Your Cupon Is Not Correct ';
   }
 }

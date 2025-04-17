@@ -38,7 +38,7 @@ class _ProductItemViewState extends State<ProductItemView> {
         alignment: Alignment.center,
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: AppColors.neutralLight),
+          border: Border.all(width: 1.5, color: AppColors.neutralLight),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
@@ -55,7 +55,7 @@ class _ProductItemViewState extends State<ProductItemView> {
                     width: 109.w,
                     height: 109.h,
                     filterQuality: FilterQuality.low,
-                    placeholder: (context, url) => buildShimmerPlaceholder(),
+                    placeholder: (context, url) => const ShimmerPlaceHolder(),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),

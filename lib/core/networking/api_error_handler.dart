@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_error_model.dart';
 
 class ApiErrorHandler {
+  ApiErrorHandler._();
   static ApiErrorModel handleError(dynamic e) {
     if (e is DioException) {
       switch (e.type) {

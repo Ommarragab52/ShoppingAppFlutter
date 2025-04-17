@@ -4,10 +4,13 @@ import 'package:flutter_ecommerce_app/core/export.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool? backButton;
+  final List<Widget>? actions;
+
   const CustomAppBar({
     super.key,
     required this.title,
     this.backButton,
+    this.actions,
   });
 
   @override
@@ -29,6 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
         style: AppStyles.headingH4,
       ),
+      actions: actions,
       bottom: PreferredSize(
           preferredSize: preferredSize,
           child: const Divider(
