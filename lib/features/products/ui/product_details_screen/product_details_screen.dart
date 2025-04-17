@@ -63,6 +63,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             CachedNetworkImage(
                           imageUrl: productModel.images![index],
                           fit: BoxFit.contain,
+                          placeholder: (context, url) => const ShimmerPlaceHolder(),
                           filterQuality: FilterQuality.low,
                         ),
                         options: CarouselOptions(

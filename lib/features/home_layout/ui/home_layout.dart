@@ -22,7 +22,7 @@ class HomeLayout extends StatelessWidget {
         appBar: state.currentIndex! > 1 ? null : const HomeAppBar(),
         body: SafeArea(
           child: PageView(
-            controller: homeLayoutCubit.pageViewControaller,
+            controller: homeLayoutCubit.pageViewController,
             onPageChanged: homeLayoutCubit.onPageChanged,
             children: homeLayoutCubit.bottomNavScreens,
           ),

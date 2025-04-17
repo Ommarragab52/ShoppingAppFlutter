@@ -1,7 +1,7 @@
 import 'package:flutter_ecommerce_app/core/networking/api_error_handler.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_result.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_service.dart';
-import 'package:flutter_ecommerce_app/features/products/data/models/products_search_models/porducts_search_request.dart';
+import 'package:flutter_ecommerce_app/features/products/data/models/products_search_models/products_search_request.dart';
 import 'package:flutter_ecommerce_app/features/products/data/models/products_search_models/products_search_response.dart';
 
 class ProductsSearchRepository {
@@ -9,7 +9,7 @@ class ProductsSearchRepository {
   ProductsSearchRepository(this.apiService);
 
   Future<ApiResult<ProductsSearchResponse>> getProductsByName({
-    required PorductsSearchRequest porductsSearchRequest,
+    required ProductsSearchRequest porductsSearchRequest,
     int? page,
   }) async {
     try {

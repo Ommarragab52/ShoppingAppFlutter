@@ -65,6 +65,7 @@ class CartScreen extends StatelessWidget {
                     ),
                   );
                 }
+
                 return SliverList.builder(
                   itemCount:  cartsList.length,
                   itemBuilder:(context, index) =>  CartItemView(

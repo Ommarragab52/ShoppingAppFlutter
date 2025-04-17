@@ -55,7 +55,7 @@ class _ProductItemViewState extends State<ProductItemView> {
                     width: 109.w,
                     height: 109.h,
                     filterQuality: FilterQuality.low,
-                    placeholder: (context, url) => buildShimmerPlaceholder(),
+                    placeholder: (context, url) => const ShimmerPlaceHolder(),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),

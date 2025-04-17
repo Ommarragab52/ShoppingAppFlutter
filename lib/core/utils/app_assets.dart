@@ -77,4 +77,14 @@ class Assets {
   /// Assets for svgTrash
   /// assets/svg/trash.svg
   static const String svgTrash = "assets/svg/trash.svg";
+
+  static const String svgGender = "assets/svg/gender.svg";
+  static const String svgMessage = "assets/svg/message.svg";
+  static const String svgPassword = "assets/svg/password.svg";
+  static const String svgPhone = "assets/svg/phone.svg";
+  static const String svgEmail = "assets/svg/email.svg";
+  static const String svgLogout = "assets/svg/logout.svg";
+
+
+
 }

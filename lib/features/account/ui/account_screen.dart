@@ -18,7 +18,9 @@ class AccountScreen extends StatelessWidget {
           ListTile(
             leading: SvgPicture.asset(Assets.svgProfile),
             title: Text('Profile', style: AppStyles.headingH6),
-            onTap: () {},
+            onTap: () {
+              context.pushNamed(Routes.profileScreen);
+            },
           ),
           ListTile(
             leading: SvgPicture.asset(Assets.svgOrder),

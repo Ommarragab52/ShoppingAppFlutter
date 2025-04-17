@@ -3,13 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
+import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/favorites/logic/favorites_cubit.dart';
 import 'package:flutter_ecommerce_app/features/favorites/logic/favorites_state.dart';
-import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/products_error_view.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/produtcs_widgets/product_item_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -49,13 +48,13 @@ class FavoritesScreen extends StatelessWidget {
                   return SliverGrid(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       mainAxisExtent: 238.h,
-                      crossAxisCount: screenSize.width > 400 ? 4 : 2,
+                      crossAxisCount: screenSize.width > 450 ? 4 : 2,
                       mainAxisSpacing: 13.h,
                       crossAxisSpacing: 12.w,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) => const PorductShimmerLoading(),
-                      childCount: screenSize.width > 400 ? 8 : 4,
+                      (context, index) => const ProductShimmerLoading(),
+                      childCount: screenSize.width > 450 ? 8 : 4,
                     ),
                   );
                 }
@@ -89,7 +88,7 @@ class FavoritesScreen extends StatelessWidget {
                   return SliverGrid(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       mainAxisExtent: 244.h,
-                      crossAxisCount: screenSize.width > 400 ? 4 : 2,
+                      crossAxisCount: screenSize.width > 500.w ? 4 : 2,
                       mainAxisSpacing: 13.h,
                       crossAxisSpacing: 12.w,
                     ),

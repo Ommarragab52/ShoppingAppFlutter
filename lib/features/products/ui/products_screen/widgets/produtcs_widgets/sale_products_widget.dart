@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/utils/app_constants.dart';
 import 'package:flutter_ecommerce_app/core/utils/app_extenstions.dart';
-import 'package:flutter_ecommerce_app/core/widgets/porduct_shimmer_loading.dart';
+import 'package:flutter_ecommerce_app/core/widgets/product_shimmer_loading.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/produtcs_widgets/product_item_view.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/proudcts_cubit/products_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/proudcts_cubit/products_states.dart';
@@ -28,14 +28,14 @@ class SaleProductsWidget extends StatelessWidget {
               itemCount: 3,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => const PorductShimmerLoading(),
+              itemBuilder: (context, index) => const ProductShimmerLoading(),
             ),
           );
         }
         // show products List
         if (state.status == ProductsStateStatus.productsSuccess) {
           if (state.saleProductsList.isNullOrEmpty()) {
-            // Show no result widget
+            // Show no result widgets
             return const SizedBox.shrink();
           }
           final saleProducts = state.saleProductsList;

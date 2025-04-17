@@ -9,4 +9,6 @@ class ApiConstants {
   static const favorites = 'favorites';
   static const notifications = 'notifications';
   static const carts = 'carts';
+  static const profile = 'profile';
+  static const updateProfile='update-profile';
 }

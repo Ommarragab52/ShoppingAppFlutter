@@ -9,7 +9,7 @@ import 'package:flutter_ecommerce_app/features/home_layout/logic/cubit/home_layo
 class HomeLayoutCubit extends Cubit<HomeLayoutState> {
   HomeLayoutCubit() : super(HomeLayoutState.initial);
 
-  final pageViewControaller = PageController();
+  final pageViewController = PageController();
 
   List<Widget> bottomNavScreens = [
     const HomeScreen(),
@@ -20,8 +20,8 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
 
   void changeIndex({required int index}) {
     if (state.currentIndex != index) {
-      if (pageViewControaller.hasClients) {
-        pageViewControaller.jumpToPage(
+      if (pageViewController.hasClients) {
+        pageViewController.jumpToPage(
           index,
         );
       }

@@ -26,13 +26,13 @@ class ProductsListGridView extends StatelessWidget {
         return SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisExtent: 238.h,
-            crossAxisCount: screenSize.width > 400 ? 4 : 2,
+            crossAxisCount: screenSize.width > 450 ? 4 : 2,
             mainAxisSpacing: 13.h,
             crossAxisSpacing: 12.w,
           ),
           delegate: SliverChildBuilderDelegate(
-            (context, index) => const PorductShimmerLoading(),
-            childCount: screenSize.width > 400 ? 8 : 4,
+            (context, index) => const ProductShimmerLoading(),
+            childCount: screenSize.width > 450 ? 8 : 4,
           ),
         );
       }
@@ -40,7 +40,7 @@ class ProductsListGridView extends StatelessWidget {
       // show products List
       if (state.status == ProductsStateStatus.productsSuccess) {
         if (state.productsList.isNullOrEmpty()) {
-          // show no result widget
+          // show no result widgets
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
         final products = state.productsList;
@@ -48,7 +48,7 @@ class ProductsListGridView extends StatelessWidget {
         return SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisExtent: 244.h,
-            crossAxisCount: screenSize.width > 400 ? 4 : 2,
+            crossAxisCount: screenSize.width > 450 ? 4 : 2,
             mainAxisSpacing: 13.h,
             crossAxisSpacing: 12.w,
           ),

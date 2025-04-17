@@ -9,13 +9,12 @@ import 'package:flutter_ecommerce_app/core/utils/app_extenstions.dart';
 bool isLoggedInUser = false;
 bool isOpenAppForFirstTime = false;
 
-String initialRoute() {
-  if (isOpenAppForFirstTime) {
-    return Routes.onBoardingScreen;
-  } else if (isLoggedInUser) {
-    return Routes.homeLayoutScreen;
+Future showOnBoarding() async {
+  bool? isFirstTime = await SharedPref.getBool(SharedPrefKeys.openAppFirstTime);
+  if (isFirstTime == null) {
+    isOpenAppForFirstTime = true;
   } else {
-    return Routes.loginScreen;
+    isOpenAppForFirstTime = false;
   }
 }
 
@@ -24,17 +23,20 @@ Future isUserLoggedIn() async {
   if (!token.isNullOrEmpty()) {
     DioFactory.addTokenToHeader(token);
     isLoggedInUser = true;
+    debugPrint('User Logged In!');
   } else {
     isLoggedInUser = false;
+    debugPrint('User Not Logged In!');
   }
 }
 
-Future showOnBoarding() async {
-  bool? isFirstTime = await SharedPref.getBool(SharedPrefKeys.openAppFirstTime);
-  if (isFirstTime == null) {
-    isOpenAppForFirstTime = true;
+String initialRoute() {
+  if (isOpenAppForFirstTime) {
+    return Routes.onBoardingScreen;
+  } else if (isLoggedInUser) {
+    return Routes.homeLayoutScreen;
   } else {
-    isOpenAppForFirstTime = false;
+    return Routes.loginScreen;
   }
 }
 
@@ -63,6 +65,9 @@ Widget buildBlocProviders(Widget child) {
       BlocProvider(
         create: (context) => ServiceLocator.cartCubit..getCarts(),
       ),
+      BlocProvider(
+        create: (context) => ServiceLocator.profileCubit..getLoginUser(),
+      )
     ],
     child: child,
   );

@@ -57,7 +57,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     crossAxisSpacing: 12.w,
                   ),
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => const PorductShimmerLoading(),
+                    (context, index) => const ProductShimmerLoading(),
                     childCount: screenSize.width > 400 ? 8 : 4,
                   ),
                 );
