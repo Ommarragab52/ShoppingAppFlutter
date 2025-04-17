@@ -23,19 +23,23 @@ class AvatarNameWidget extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                content: CachedNetworkImage(imageUrl: userModel.image ?? ''),
+                content: InteractiveViewer(child: CachedNetworkImage(imageUrl: userModel.image ?? '')),
               ),
             );
           },
           borderRadius: BorderRadius.circular(100),
           child: CircleAvatar(
             maxRadius: 62,
-            backgroundColor: Colors.grey,
-            child: CircleAvatar(
-              maxRadius: 60,
-              backgroundColor: Colors.grey,
-              backgroundImage: CachedNetworkImageProvider(
-                userModel.image ?? '',
+            backgroundColor: Colors.black54,
+            child: Container(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              width: 120,
+              height: 120,
+              decoration: const ShapeDecoration(shape: CircleBorder()),
+              child: CachedNetworkImage(
+                imageUrl: userModel.image ?? '',
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const ShimmerPlaceHolder(),
               ),
             ),
           ),

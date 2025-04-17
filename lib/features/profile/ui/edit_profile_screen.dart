@@ -1,12 +1,13 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/core/utils/app_regex.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
-import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_ecommerce_app/features/profile/logic/profile_cubit.dart';
+import 'package:flutter_ecommerce_app/features/profile/logic/profile_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  late UserModel userModel;
+  late ProfileCubit profileCubit;
 
   late GlobalKey<FormState> formKey;
   late TextEditingController nameController;
@@ -27,7 +28,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    userModel = context.read<ProfileCubit>().userModel;
+    profileCubit = context.read<ProfileCubit>();
     formKey = GlobalKey<FormState>();
     nameController = TextEditingController();
     emailController = TextEditingController();
@@ -57,10 +58,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             constraints: BoxConstraints.loose(
                                 const Size.fromHeight(200)),
                             context: context,
-                            builder: (context) =>SizedBox(
+                            builder: (context) => SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Padding(
-                                padding:  EdgeInsets.symmetric(horizontal:  16.w),
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -68,37 +69,60 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       'Upload Image',
                                       style: AppStyles.bodyTextLargeRegular
                                           .copyWith(
-                                          color: AppColors.neutralDark),
+                                              color: AppColors.neutralDark),
                                     ),
-                                    verticalSpace(8),
-                                    TextButton.icon(
-                                      onPressed: () {
-                                        context.read<ProfileCubit>().uploadImageFromCamera();
+                                    verticalSpace(12),
+                                    InkWell(
+                                      onTap: () {
+                                        profileCubit.uploadNewImage(
+                                          fromGallery: false,
+                                        );
                                         context.pop();
                                       },
-                                      label: Text(
-                                        'Camera',
-                                        style: AppStyles.bodyTextMediumRegular
-                                            .copyWith(
-                                            color: AppColors.neutralDark),
-                                      ),
-                                      icon: const Icon(
-                                        Icons.camera_alt,
-                                        color: AppColors.neutralDark,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(6),
+                                        child: Row(
+                                          spacing: 8.w,
+                                          children: [
+                                            const Icon(
+                                              Icons.camera_alt,
+                                              color: AppColors.neutralDark,
+                                            ),
+                                            Text('Camera',
+                                                style: AppStyles
+                                                    .bodyTextMediumRegular
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .neutralDark)),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    TextButton.icon(
-                                      onPressed: () {
-                                        context.read<ProfileCubit>().uploadImageFromGallery();
+
+                                    InkWell(
+                                      onTap: () {
+                                        profileCubit.uploadNewImage(
+                                          fromGallery: true,
+                                        );
                                         context.pop();
                                       },
-                                      label: Text('Gallery',
-                                          style: AppStyles.bodyTextMediumRegular
-                                              .copyWith(
-                                              color: AppColors.neutralDark)),
-                                      icon: const Icon(
-                                        Icons.photo_library_rounded,
-                                        color: AppColors.neutralDark,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(6),
+                                        child: Row(
+                                          spacing: 8.w,
+                                          children: [
+                                            const Icon(
+                                              Icons.photo_library_rounded,
+                                              color: AppColors.neutralDark,
+                                            ),
+                                            Text('Gallery',
+                                                style: AppStyles
+                                                    .bodyTextMediumRegular
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .neutralDark)),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -110,21 +134,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: Stack(
                           children: [
                             CircleAvatar(
-                              maxRadius: 82,
-                              backgroundColor: Colors.grey,
-                              child: CircleAvatar(
-                                maxRadius: 80,
-                                backgroundColor: Colors.grey,
-                                backgroundImage: CachedNetworkImageProvider(
-                                    userModel.image ?? ''),
+                              maxRadius: 102,
+                              backgroundColor: Colors.black54,
+                              child: Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                height: 200,
+                                width: 200,
+                                decoration: ShapeDecoration(
+                                  shape: const CircleBorder(),
+                                  color: Colors.grey[300],
+                                ),
+                                child: BlocBuilder<ProfileCubit, ProfileState>(
+                                    buildWhen: (previous, current) =>
+                                        current is ImageLoadingState ||
+                                        current is ImageLoadedState ||
+                                        current is ImageErrorState,
+                                    builder: (context, state) {
+                                      if (state is ImageLoadingState) {
+                                        return const CircularProgressIndicator();
+                                      }
+                                      if (state is ImageLoadedState) {
+                                        if (profileCubit.base64Image != null) {
+                                          final bytes = base64Decode(
+                                              profileCubit.base64Image!);
+                                          return Image.memory(
+                                            bytes,
+                                            fit: BoxFit.cover,
+                                          );
+                                        }
+                                      }
+                                      return CircleAvatar(
+                                        maxRadius: 102,
+                                        backgroundColor: Colors.grey,
+                                        child: Container(
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          width: 200,
+                                          height: 200,
+                                          decoration: const ShapeDecoration(
+                                              shape: CircleBorder()),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                profileCubit.userModel.image ??
+                                                    '',
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                const ShimmerPlaceHolder(),
+                                          ),
+                                        ),
+                                      );
+                                    }),
                               ),
                             ),
                             const Positioned(
-                              bottom: 4,
-                              left: 4,
+                              bottom: 16,
+                              left: 16,
                               child: CircleAvatar(
                                   maxRadius: 16,
-                                  backgroundColor: Colors.black54,
+                                  backgroundColor: Colors.black87,
                                   child: Icon(Icons.edit)),
                             ),
                           ],
@@ -136,7 +203,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: userModel.name!,
+                      hintText: profileCubit.userModel.name!,
                       controller: nameController,
                       prefixIcon: Icons.person,
                       validator: (value) {
@@ -153,7 +220,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: userModel.email!,
+                      hintText: profileCubit.userModel.email!,
                       controller: emailController,
                       prefixIcon: Icons.email,
                       validator: (value) {
@@ -170,7 +237,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: userModel.phone!,
+                      hintText: profileCubit.userModel.phone!,
                       controller: phoneController,
                       prefixIcon: Icons.phone,
                       keyboardType: TextInputType.phone,
@@ -183,28 +250,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         return null;
                       },
                     ),
-                    AppButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          if (nameController.text.isNullOrEmpty() &&
-                              emailController.text.isNullOrEmpty() &&
-                              phoneController.text.isNullOrEmpty()) {
+                    BlocConsumer<ProfileCubit, ProfileState>(
+                        buildWhen: (previous, current) =>
+                            current is UpdateProfileLoading ||
+                            current is UpdateProfileSuccess ||
+                            current is UpdateProfileError,
+                        listenWhen: (previous, current) =>
+                            current is UpdateProfileSuccess ||
+                            current is UpdateProfileError,
+                        listener: (context, state) {
+                          if (state is UpdateProfileSuccess) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 appSnackBar(
-                                    content: 'Please Enter A New Values ',
-                                    state: SnackBarState.error));
-
-                            return;
+                                    content: 'Data Updated Successfully',
+                                    state: SnackBarState.success));
                           }
-                          context.read<ProfileCubit>().updateProfile(
-                                name: nameController.text.trim(),
-                                email: emailController.text.trim(),
-                                phone: phoneController.text.trim(),
-                              );
-                        }
-                      },
-                      text: 'Update',
-                    ),
+                          if (state is UpdateProfileError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                appSnackBar(
+                                    content: 'Something Went Wrong',
+                                    state: SnackBarState.error));
+                          }
+                        },
+                        builder: (context, state) {
+                          return state is UpdateProfileLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : AppButton(
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      profileCubit.updateProfile(
+                                        name: nameController.text.trim(),
+                                        email: emailController.text.trim(),
+                                        phone: phoneController.text.trim(),
+                                        imageBase64: profileCubit.base64Image,
+                                      );
+                                    }
+                                  },
+                                  text: 'Update',
+                                );
+                        }),
                   ]),
             ),
           ),
