@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
@@ -22,8 +24,16 @@ class AvatarNameWidget extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                content: InteractiveViewer(child: CachedNetworkImage(imageUrl: userModel.image ?? '')),
+              builder: (context) => BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 4,
+                  sigmaY: 4,
+                ),
+                child: InteractiveViewer(
+                  child: CachedNetworkImage(
+                    imageUrl: userModel.image ?? '',
+                  ),
+                ),
               ),
             );
           },

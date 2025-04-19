@@ -41,9 +41,12 @@ class ApiErrorHandler {
           return ApiErrorModel(
               message: "Something went wrong. Please try again later.");
       }
-    } else if (e is ApiErrorModel) {
+    }
+    else if (e is ApiErrorModel) {
       return ApiErrorModel(message: e.message);
-    } else {
+    } else if (e is String ||e is String?) {
+      return ApiErrorModel(message: e);
+    }else {
       return ApiErrorModel(message: 'Unknown error occured');
     }
   }

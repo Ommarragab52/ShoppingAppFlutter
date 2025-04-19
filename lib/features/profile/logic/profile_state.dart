@@ -1,6 +1,5 @@
 import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_ecommerce_app/features/profile/data/models/profile_response.dart';
-import 'package:image_picker/image_picker.dart';
 
 sealed class ProfileState {}
 
@@ -30,7 +29,6 @@ class GetLoginUserSuccess extends ProfileState {
 
 class GetLoginUserError extends ProfileState {
   final String? errorMsg;
-
   GetLoginUserError(this.errorMsg);
 }
 class UpdateProfileLoading extends ProfileState {}

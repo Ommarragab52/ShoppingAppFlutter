@@ -11,4 +11,5 @@ class ApiConstants {
   static const carts = 'carts';
   static const profile = 'profile';
   static const updateProfile='update-profile';
+  static const changePassword='change-password';
 }

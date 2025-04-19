@@ -98,7 +98,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         ),
                                       ),
                                     ),
-
                                     InkWell(
                                       onTap: () {
                                         profileCubit.uploadNewImage(
@@ -150,9 +149,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         current is ImageLoadedState ||
                                         current is ImageErrorState,
                                     builder: (context, state) {
-                                      if (state is ImageLoadingState) {
-                                        return const CircularProgressIndicator();
-                                      }
+                                     
                                       if (state is ImageLoadedState) {
                                         if (profileCubit.base64Image != null) {
                                           final bytes = base64Decode(
@@ -163,6 +160,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           );
                                         }
                                       }
+
                                       return CircleAvatar(
                                         maxRadius: 102,
                                         backgroundColor: Colors.grey,
@@ -175,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               shape: CircleBorder()),
                                           child: CachedNetworkImage(
                                             imageUrl:
-                                                profileCubit.userModel.image ??
+                                                profileCubit.userModel?.image ??
                                                     '',
                                             fit: BoxFit.cover,
                                             placeholder: (context, url) =>
@@ -203,7 +201,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: profileCubit.userModel.name!,
+                      hintText: profileCubit.userModel!.name!,
                       controller: nameController,
                       prefixIcon: Icons.person,
                       validator: (value) {
@@ -220,7 +218,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: profileCubit.userModel.email!,
+                      hintText: profileCubit.userModel!.email!,
                       controller: emailController,
                       prefixIcon: Icons.email,
                       validator: (value) {
@@ -237,7 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: AppStyles.bodyTextNormalRegular,
                     ),
                     AppTextFormField(
-                      hintText: profileCubit.userModel.phone!,
+                      hintText: profileCubit.userModel!.phone!,
                       controller: phoneController,
                       prefixIcon: Icons.phone,
                       keyboardType: TextInputType.phone,

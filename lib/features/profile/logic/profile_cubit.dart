@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository _profileRepository;
 
   ProfileCubit(this._profileRepository) : super(ProfileInitial());
-  late UserModel userModel;
+   UserModel? userModel;
   String? base64Image;
 
   void getLoginUser() async {
@@ -24,7 +24,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         await SharedPref.getSecuredString(SharedPrefKeys.loginUser);
     if (userJson.isNotEmpty && userJson != null) {
       userModel = UserModel.fromJson(jsonDecode(userJson));
-      emit(GetLoginUserSuccess(userModel));
+      emit(GetLoginUserSuccess(userModel!));
     } else {
       emit(GetLoginUserError('user not found'));
     }
@@ -40,10 +40,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(UpdateProfileLoading());
     final response = await _profileRepository.updateProfile(
       UpdateProfileRequest(
-        name.isNullOrEmpty() ? userModel.name : name,
-        email.isNullOrEmpty() ? userModel.email : email,
-        phone.isNullOrEmpty() ? userModel.phone : phone,
-        password,
+        name.isNullOrEmpty() ? userModel?.name : name,
+        email.isNullOrEmpty() ? userModel?.email : email,
+        phone.isNullOrEmpty() ? userModel?.phone : phone,
         imageBase64,
       ),
     );
@@ -61,6 +60,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void uploadNewImage({required bool fromGallery}) async {
+    emit(ImageLoadingState());
     // Pick image from gallery
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
@@ -71,8 +71,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (image != null) {
       base64Image = await convertImageToBase64(image);
       emit(ImageLoadedState('Image Loaded Successfully'));
-    } else {
-      emit(ImageErrorState('Something Went Wrong'));
+    }else{
+      emit(ImageErrorState('Please Select An Image'));
     }
   }
 

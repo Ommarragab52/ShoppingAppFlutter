@@ -12,6 +12,7 @@ import 'package:flutter_ecommerce_app/features/onboarding/onboarding_screen.dart
 import 'package:flutter_ecommerce_app/features/products/ui/product_details_screen/product_details_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/products_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_search_screen/products_search_screen.dart';
+import 'package:flutter_ecommerce_app/features/profile/ui/change_password_screen.dart';
 import 'package:flutter_ecommerce_app/features/profile/ui/edit_profile_screen.dart';
 import 'package:flutter_ecommerce_app/features/profile/ui/profile_screen.dart';
 
@@ -83,6 +84,14 @@ class AppRouter {
       case Routes.editProfileScreen:
         return MaterialPageRoute(
           builder: (context) => const EditProfileScreen(),
+        );
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+
+              create: (BuildContext context) =>ServiceLocator.getIt<AuthCubit>(),
+              child: const ChangePasswordScreen()),
+
         );
       default:
         return null;

@@ -11,7 +11,7 @@ class AppBarSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.symmetric(vertical: 4.h, horizontal: 16.w),
+      padding: EdgeInsetsDirectional.symmetric(vertical: 4.h, horizontal: 4.w),
       child: AppTextFormField(
         hintText: 'Search Products',
         readOnly: true,
