@@ -38,7 +38,9 @@ abstract class ApiService {
 
   // Register
   @POST(ApiConstants.register)
-  Future<RegisterResponse> signUp(@Body() RegisterRequest registerRequest);
+  Future<RegisterResponse> signUp(
+    @Body() RegisterRequest registerRequest,
+  );
 
   // Home
   @GET(ApiConstants.home)
