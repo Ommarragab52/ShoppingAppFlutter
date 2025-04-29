@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_constants.dart';
+import 'package:flutter_ecommerce_app/features/auth/data/models/change_password_request.dart';
+import 'package:flutter_ecommerce_app/features/auth/data/models/change_password_response.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/login_request.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/login_response/login_response.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/register_request.dart';
@@ -36,7 +38,9 @@ abstract class ApiService {
 
   // Register
   @POST(ApiConstants.register)
-  Future<RegisterResponse> signUp(@Body() RegisterRequest registerRequest);
+  Future<RegisterResponse> signUp(
+    @Body() RegisterRequest registerRequest,
+  );
 
   // Home
   @GET(ApiConstants.home)
@@ -112,5 +116,11 @@ abstract class ApiService {
   @PUT(ApiConstants.updateProfile)
   Future<ProfileResponse> updateProfile(
     @Body() UpdateProfileRequest updateProfileRequest,
+  );
+
+  // Change Password
+  @POST(ApiConstants.changePassword)
+  Future<ChangePasswordResponse> changePassword(
+    @Body() ChangePasswordRequest changePasswordRequest,
   );
 }

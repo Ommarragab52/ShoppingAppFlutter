@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:core';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
@@ -13,7 +15,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository _profileRepository;
 
   ProfileCubit(this._profileRepository) : super(ProfileInitial());
-  late UserModel userModel;
+   UserModel? userModel;
+  String? base64Image;
 
   void getLoginUser() async {
     emit(GetLoginUserLoading());
@@ -21,7 +24,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         await SharedPref.getSecuredString(SharedPrefKeys.loginUser);
     if (userJson.isNotEmpty && userJson != null) {
       userModel = UserModel.fromJson(jsonDecode(userJson));
-      emit(GetLoginUserSuccess(userModel));
+      emit(GetLoginUserSuccess(userModel!));
     } else {
       emit(GetLoginUserError('user not found'));
     }
@@ -36,7 +39,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) async {
     emit(UpdateProfileLoading());
     final response = await _profileRepository.updateProfile(
-      UpdateProfileRequest(name, email, phone, password, imageBase64),
+      UpdateProfileRequest(
+        name.isNullOrEmpty() ? userModel?.name : name,
+        email.isNullOrEmpty() ? userModel?.email : email,
+        phone.isNullOrEmpty() ? userModel?.phone : phone,
+        imageBase64,
+      ),
     );
     response.when(
       success: (data) async {
@@ -51,28 +59,21 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  Future<XFile?> uploadImageFromGallery() async {
+  void uploadNewImage({required bool fromGallery}) async {
+    emit(ImageLoadingState());
     // Pick image from gallery
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: fromGallery ? ImageSource.gallery : ImageSource.camera,
       // You can adjust quality to control file size
-      imageQuality: 85,
+      imageQuality: 50,
     );
-
-    return image;
-  }
-
-  Future<XFile?> uploadImageFromCamera() async {
-    // Pick image from gallery
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.camera,
-      // You can adjust quality to control file size
-      imageQuality: 85,
-    );
-
-    return image;
+    if (image != null) {
+      base64Image = await convertImageToBase64(image);
+      emit(ImageLoadedState('Image Loaded Successfully'));
+    }else{
+      emit(ImageErrorState('Please Select An Image'));
+    }
   }
 
   Future<String> convertImageToBase64(XFile image) async {
@@ -82,9 +83,9 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     // Convert bytes to base64 string
     final String base64Image = base64Encode(imageBytes);
-
+      debugPrint(base64Image);
     // Add prefix like "/9j/" as seen in your example
     // The "/9j/" prefix indicates it's a JPEG image in base64
-    return "/9j/$base64Image";
+    return base64Image;
   }
 }

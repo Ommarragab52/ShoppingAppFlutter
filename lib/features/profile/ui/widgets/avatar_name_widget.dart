@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
@@ -22,20 +24,32 @@ class AvatarNameWidget extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                content: CachedNetworkImage(imageUrl: userModel.image ?? ''),
+              builder: (context) => BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 4,
+                  sigmaY: 4,
+                ),
+                child: InteractiveViewer(
+                  child: CachedNetworkImage(
+                    imageUrl: userModel.image ?? '',
+                  ),
+                ),
               ),
             );
           },
           borderRadius: BorderRadius.circular(100),
           child: CircleAvatar(
             maxRadius: 62,
-            backgroundColor: Colors.grey,
-            child: CircleAvatar(
-              maxRadius: 60,
-              backgroundColor: Colors.grey,
-              backgroundImage: CachedNetworkImageProvider(
-                userModel.image ?? '',
+            backgroundColor: Colors.black54,
+            child: Container(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              width: 120,
+              height: 120,
+              decoration: const ShapeDecoration(shape: CircleBorder()),
+              child: CachedNetworkImage(
+                imageUrl: userModel.image ?? '',
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const ShimmerPlaceHolder(),
               ),
             ),
           ),

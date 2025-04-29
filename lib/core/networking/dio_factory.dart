@@ -2,28 +2,31 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
-  static Dio? dio;
+  static Dio? _dio;
 
-  //private constrctor
+  //private constructor
   DioFactory._();
 
   static Dio getDio() {
-    Duration timeOut = const Duration(seconds: 30);
-
-    if (dio == null) {
-      dio = Dio();
-      dio!.options.connectTimeout = timeOut;
-      dio!.options.receiveTimeout = timeOut;
+    if (_dio == null) {
+      _dio = Dio();
+      addDioOptions();
       addDioInterceptor();
-      addDioHeaders();
-      return dio!;
+      return _dio!;
     } else {
-      return dio!;
+      return _dio!;
     }
   }
 
+  static void addDioOptions() {
+    Duration timeOut = const Duration(seconds: 30);
+    _dio!.options.connectTimeout = timeOut;
+    _dio!.options.receiveTimeout = timeOut;
+    _dio!.options.contentType = Headers.jsonContentType;
+  }
+
   static void addDioInterceptor() {
-    dio!.interceptors.add(
+    _dio!.interceptors.add(
       PrettyDioLogger(
         error: true,
         requestHeader: true,
@@ -34,11 +37,7 @@ class DioFactory {
     );
   }
 
-  static void addDioHeaders() async {
-    dio!.options.headers = {'Content-Type': 'application/json', 'lang': 'en'};
-  }
-
   static void addTokenToHeader(String token) {
-    dio!.options.headers.addAll({'Authorization': token});
+    _dio!.options.headers.addAll({'Authorization': token});
   }
 }

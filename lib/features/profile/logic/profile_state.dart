@@ -29,7 +29,6 @@ class GetLoginUserSuccess extends ProfileState {
 
 class GetLoginUserError extends ProfileState {
   final String? errorMsg;
-
   GetLoginUserError(this.errorMsg);
 }
 class UpdateProfileLoading extends ProfileState {}
@@ -40,4 +39,13 @@ class UpdateProfileSuccess extends ProfileState {
 class UpdateProfileError extends ProfileState {
   final String? errorMsg;
   UpdateProfileError(this.errorMsg);
+}
+class ImageLoadingState extends ProfileState{}
+class ImageLoadedState extends ProfileState{
+  final String msg;
+  ImageLoadedState(this.msg);
+}
+class ImageErrorState extends ProfileState{
+  final String msg;
+  ImageErrorState(this.msg);
 }

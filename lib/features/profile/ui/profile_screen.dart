@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
+import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
 import 'package:flutter_ecommerce_app/features/profile/logic/profile_cubit.dart';
 import 'package:flutter_ecommerce_app/features/profile/logic/profile_state.dart';
 import 'package:flutter_ecommerce_app/features/profile/ui/widgets/avatar_name_widget.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileCubit = context.read<ProfileCubit>();
     return Scaffold(
         appBar: CustomAppBar(
           title: 'Profile',
@@ -41,35 +43,53 @@ class ProfileScreen extends StatelessWidget {
             )
           ],
         ),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            if (state is GetLoginUserLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (state is GetLoginUserSuccess) {
+        body: SingleChildScrollView(
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            buildWhen: (previous, current) =>
+                current is GetLoginUserLoading ||
+                current is GetLoginUserSuccess ||
+                current is GetLoginUserError,
+            builder: (context, state) {
+              if (state is GetLoginUserLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is GetLoginUserError) {
+                return Center(child: Text(state.errorMsg.toString()));
+              }
+              UserModel model = profileCubit.userModel!;
+              if (state is GetLoginUserSuccess) {
+                model = state.userModel;
+              }
               return Padding(
                 padding: EdgeInsets.all(16.h),
                 child: Column(
                   children: [
-                    AvatarNameWidget(state.userModel),
+                    AvatarNameWidget(model),
                     verticalSpace(32),
                     ProfileItemWidget(
                       title: 'Email',
-                      value: state.userModel.email ?? "Null",
+                      value: model.email ?? "Null",
                       icon: Assets.svgEmail,
-                      onClick: () {},
+                      onClick: () {
+                        context.pushNamed(Routes.editProfileScreen);
+                      },
                     ),
                     ProfileItemWidget(
                       title: 'Phone Number',
-                      value: state.userModel.phone ?? "Null",
+                      value: model.phone ?? "Null",
                       icon: Assets.svgPhone,
-                      onClick: () {},
+                      onClick: () {
+                        context.pushNamed(Routes.editProfileScreen);
+                      },
                     ),
                     ProfileItemWidget(
                       title: 'Change Password',
                       value: "•••••••••••••",
                       icon: Assets.svgPassword,
-                      onClick: () {},
+                      onClick: () {
+                        // navigate to change password screen
+                        context.pushNamed(Routes.changePasswordScreen);
+                      },
                     ),
                     ProfileItemWidget(
                       title: 'Logout ',
@@ -84,13 +104,8 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }
-            if (state is GetLoginUserError) {
-              return Center(child: Text(state.errorMsg.toString()));
-            } else {
-              return Container();
-            }
-          },
+            },
+          ),
         ));
   }
 }

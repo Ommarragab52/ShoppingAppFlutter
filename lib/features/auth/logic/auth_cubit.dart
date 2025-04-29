@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/core/di/dpendency_injection.dart';
 import 'package:flutter_ecommerce_app/core/helpers/shared_pref_helper.dart';
 import 'package:flutter_ecommerce_app/core/utils/app_constants.dart';
 import 'package:flutter_ecommerce_app/core/utils/startup_methods.dart';
+import 'package:flutter_ecommerce_app/features/auth/data/models/change_password_request.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/login_request.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/register_request.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/user_model.dart';
@@ -20,6 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final newPasswordController = TextEditingController();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
 
@@ -58,17 +61,38 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  void changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    emit(ChangePasswordLoadingState());
+    final response = await authRepository.changePassword(
+        changePasswordRequest: ChangePasswordRequest(
+      currentPassword,
+      newPassword,
+    ));
+    response.when(success: (data) {
+      emit(ChangePasswordSuccessState(message: data.message));
+
+    }, failure: (error) {
+      emit(ChangePasswordErrorState(message: error.message));
+
+    },);
+  }
+
   void logout() async {
     await SharedPref.removeSecuredData(SharedPrefKeys.userToken);
     await SharedPref.removeSecuredData(SharedPrefKeys.loginUser);
     await isUserLoggedIn();
+    ServiceLocator.homeLayoutCubit.changeIndex(index: 0);
   }
 
   Future saveLoginUser(UserModel userModel) async {
     await SharedPref.setSecuredString(
         SharedPrefKeys.loginUser, jsonEncode(userModel.toJson()));
     if (userModel.token != null) {
-      await SharedPref.setSecuredString(SharedPrefKeys.userToken, userModel.token!);
+      await SharedPref.setSecuredString(
+          SharedPrefKeys.userToken, userModel.token!);
       await isUserLoggedIn();
       await showOnBoarding();
       debugPrint('User Token Updated!');

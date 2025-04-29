@@ -1,11 +1,12 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/di/dpendency_injection.dart';
 import 'package:flutter_ecommerce_app/core/utils/startup_methods.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'core/utils/my_bloc_observer.dart';
+
 import 'app.dart';
-import 'package:device_preview/device_preview.dart';
+import 'core/utils/my_bloc_observer.dart';
 
 void main() async {
   // ensure all method in main is finished then run app

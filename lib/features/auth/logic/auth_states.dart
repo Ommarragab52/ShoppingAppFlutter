@@ -23,9 +23,22 @@ class RegisterSuccessState extends AuthState {
 
   RegisterSuccessState({this.message});
 }
-
 class RegisterErrorState extends AuthState {
   String? message;
 
   RegisterErrorState({this.message});
+}
+
+
+class ChangePasswordLoadingState extends AuthState {}
+
+class ChangePasswordSuccessState extends AuthState {
+  String? message;
+
+  ChangePasswordSuccessState({this.message});
+}
+class ChangePasswordErrorState extends AuthState {
+  String? message;
+
+  ChangePasswordErrorState({this.message});
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_app_bar.dart';
 import 'package:flutter_ecommerce_app/features/cart/logic/cubit/cart_cubit.dart';
-import 'package:flutter_ecommerce_app/features/home_layout/logic/cubit/home_layout_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_cubit.dart';
 import 'package:flutter_ecommerce_app/features/products/logic/product_details_cubit/product_details_states.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/widgets/produtcs_widgets/favorite_icon_button.dart';
@@ -26,6 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   CarouselSliderController carouselController = CarouselSliderController();
   int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -63,7 +61,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             CachedNetworkImage(
                           imageUrl: productModel.images![index],
                           fit: BoxFit.contain,
-                          placeholder: (context, url) => const ShimmerPlaceHolder(),
+                          placeholder: (context, url) =>
+                              const ShimmerPlaceHolder(),
                           filterQuality: FilterQuality.low,
                         ),
                         options: CarouselOptions(
@@ -197,10 +196,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   child: productModel.inCart!
                       ? AppButton(
                           onPressed: () {
-                            // context.read<HomeLayoutCubit>().changeIndex(index: 2);
-                            // context.pop();
+                            context.popUntil((route) =>
+                                route.settings.name == Routes.homeLayoutScreen);
+                            ServiceLocator.homeLayoutCubit.changeIndex(index: 2);
                           },
-                          text: 'In Cart',
+                          text: 'View In Cart',
                         )
                       : AppButton(
                           onPressed: () {

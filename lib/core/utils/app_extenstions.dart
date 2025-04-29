@@ -22,6 +22,9 @@ extension Navigation on BuildContext {
   void pop() {
     return Navigator.of(this).pop();
   }
+  void popUntil(RoutePredicate predicate){
+    return Navigator.of(this).popUntil(predicate);
+  }
 }
 
 extension StringExtension on String? {

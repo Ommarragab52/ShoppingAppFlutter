@@ -12,31 +12,36 @@ import 'package:flutter_ecommerce_app/features/onboarding/onboarding_screen.dart
 import 'package:flutter_ecommerce_app/features/products/ui/product_details_screen/product_details_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_screen/products_screen.dart';
 import 'package:flutter_ecommerce_app/features/products/ui/products_search_screen/products_search_screen.dart';
+import 'package:flutter_ecommerce_app/features/profile/ui/change_password_screen.dart';
 import 'package:flutter_ecommerce_app/features/profile/ui/edit_profile_screen.dart';
 import 'package:flutter_ecommerce_app/features/profile/ui/profile_screen.dart';
 
 class AppRouter {
-  static Route? generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => const OnBoardingScreen(),
         );
 
       case Routes.loginScreen:
         return MaterialPageRoute(
+            settings: settings,
             builder: (context) => BlocProvider(
                 create: (context) => ServiceLocator.getIt<AuthCubit>(),
                 child: const LoginScreen()));
 
       case Routes.registerScreen:
         return MaterialPageRoute(
+            settings: settings,
             builder: (context) => BlocProvider(
                 create: (context) => ServiceLocator.getIt<AuthCubit>(),
                 child: const RegisterScreen()));
 
       case Routes.homeLayoutScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => const HomeLayout(),
         );
 
@@ -47,12 +52,14 @@ class AppRouter {
           categoryModel = arguments['categoryModel'] as CategoryModel;
         }
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => ProductsScreen(categoryModel: categoryModel),
         );
 
       case Routes.productDetailsScreen:
         final productId = settings.arguments as int;
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => BlocProvider(
             create: (context) =>
                 ServiceLocator.productDetailsCubit..getProduct(productId),
@@ -62,6 +69,7 @@ class AppRouter {
 
       case Routes.productsSearchScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => BlocProvider(
             create: (context) => ServiceLocator.productsSearchCubit,
             child: const ProductsSearchScreen(),
@@ -70,19 +78,31 @@ class AppRouter {
 
       case Routes.favoritesScreen:
         return MaterialPageRoute(
+            settings: settings,
             builder: (BuildContext context) => const FavoritesScreen());
 
       case Routes.notificationsScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (BuildContext context) => const NotificationsScreen(),
         );
       case Routes.profileScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (BuildContext context) => const ProfileScreen(),
         );
       case Routes.editProfileScreen:
         return MaterialPageRoute(
+          settings: settings,
           builder: (context) => const EditProfileScreen(),
+        );
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => BlocProvider(
+              create: (BuildContext context) =>
+                  ServiceLocator.getIt<AuthCubit>(),
+              child: const ChangePasswordScreen()),
         );
       default:
         return null;

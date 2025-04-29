@@ -11,8 +11,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       actions: const [
+        ProfileWidget(),
         Expanded(child: AppBarSearchField()),
-        FavoriteAndNotifactions()
+        FavoriteAndNotifications()
       ],
     );
   }

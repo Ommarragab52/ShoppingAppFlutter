@@ -11,7 +11,7 @@ import 'package:flutter_ecommerce_app/features/home_layout/logic/cubit/home_layo
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeLayout extends StatelessWidget {
-  const HomeLayout({super.key});
+  const HomeLayout( {super.key});
 
   @override
   Widget build(BuildContext context) {
