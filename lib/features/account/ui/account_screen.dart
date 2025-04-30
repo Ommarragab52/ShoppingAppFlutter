@@ -30,7 +30,9 @@ class AccountScreen extends StatelessWidget {
           ListTile(
             leading: SvgPicture.asset(Assets.svgAddress),
             title: Text('Address', style: AppStyles.headingH6),
-            onTap: () {},
+            onTap: () {
+              context.pushNamed(Routes.addressScreen);
+            },
           ),
           ListTile(
             leading: SvgPicture.asset(Assets.svgPayment),

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_service.dart';
 import 'package:flutter_ecommerce_app/core/networking/dio_factory.dart';
+import 'package:flutter_ecommerce_app/features/addresses/data/repository/addresses_repository.dart';
+import 'package:flutter_ecommerce_app/features/addresses/logic/addresses_cubit.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/repository/auth_repository.dart';
 import 'package:flutter_ecommerce_app/features/auth/logic/auth_cubit.dart';
 import 'package:flutter_ecommerce_app/features/cart/data/repo/cart_repository.dart';
@@ -88,6 +90,11 @@ class ServiceLocator {
     getIt.registerLazySingleton<ProfileRepository>(
         () => ProfileRepository(getIt()));
     getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
+
+    // Addresses
+    getIt.registerLazySingleton<AddressesRepository>(
+        () => AddressesRepository(getIt()));
+    getIt.registerLazySingleton<AddressesCubit>(() => AddressesCubit(getIt()));
   }
 
   static HomeLayoutCubit get homeLayoutCubit => getIt<HomeLayoutCubit>();
@@ -114,4 +121,6 @@ class ServiceLocator {
   static CartCubit get cartCubit => getIt<CartCubit>();
 
   static ProfileCubit get profileCubit => getIt<ProfileCubit>();
+
+  static AddressesCubit get addressesCubit => getIt<AddressesCubit>();
 }

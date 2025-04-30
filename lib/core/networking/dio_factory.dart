@@ -22,6 +22,7 @@ class DioFactory {
     Duration timeOut = const Duration(seconds: 30);
     _dio!.options.connectTimeout = timeOut;
     _dio!.options.receiveTimeout = timeOut;
+    _dio!.options.headers.addAll({'lang': 'en'});
     _dio!.options.contentType = Headers.jsonContentType;
   }
 

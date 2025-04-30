@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/export.dart';
+import 'package:flutter_ecommerce_app/features/addresses/ui/address_screen.dart';
 import 'package:flutter_ecommerce_app/features/auth/logic/auth_cubit.dart';
 import 'package:flutter_ecommerce_app/features/auth/ui/login_screen.dart';
 import 'package:flutter_ecommerce_app/features/auth/ui/register_screen.dart';
@@ -103,6 +104,11 @@ class AppRouter {
               create: (BuildContext context) =>
                   ServiceLocator.getIt<AuthCubit>(),
               child: const ChangePasswordScreen()),
+        );
+      case Routes.addressScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const AddressScreen(),
         );
       default:
         return null;

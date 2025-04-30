@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_ecommerce_app/core/networking/api_constants.dart';
+import 'package:flutter_ecommerce_app/features/addresses/data/models/address_model.dart';
+import 'package:flutter_ecommerce_app/features/addresses/data/models/address_response.dart';
+import 'package:flutter_ecommerce_app/features/addresses/data/models/addresses_response/AddressesResponse.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/change_password_request.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/change_password_response.dart';
 import 'package:flutter_ecommerce_app/features/auth/data/models/login_request.dart';
@@ -121,6 +124,24 @@ abstract class ApiService {
   // Change Password
   @POST(ApiConstants.changePassword)
   Future<ChangePasswordResponse> changePassword(
-    @Body() ChangePasswordRequest changePasswordRequest,
+      @Body() ChangePasswordRequest changePasswordRequest);
+
+  // Get Addresses
+  @GET(ApiConstants.addresses)
+  Future<AddressesResponse> getAddresses();
+
+  // Add Address
+  @POST(ApiConstants.addresses)
+  Future<AddressResponse> addAddress(@Body() AddressModel addressModel);
+
+  // Update Address
+  @PUT('${ApiConstants.addresses}/{addressId}')
+  Future<AddressResponse> updateAddress(
+    @Path('addressId') int addressId,
+    @Body() AddressModel addressModel,
   );
+
+  // Delete Address
+  @DELETE('${ApiConstants.addresses}/{addressId}')
+  Future<AddressResponse> deleteAddress(@Path('addressId') int addressId);
 }

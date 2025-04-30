@@ -47,7 +47,7 @@ class Assets {
   static const String imageSplash = "assets/image/splash.png";
 
   /// Assets for svgAddress
-  /// assets/svg/address.svg
+  /// assets/svg/addresses_response.svg
   static const String svgAddress = "assets/svg/address.svg";
 
   /// Assets for svgNotFound
